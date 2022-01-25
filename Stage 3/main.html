@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Case Converter</title>
+    <style>
+        .title {
+            font-size: 3em;
+        }
+        .but{
+            justify-content: start;
+            position: absolute;
+            padding: 10px 10px 10px 10px;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+<div class="title">Case Converter</div>
+<textarea></textarea>
+<div class="but">
+    <button id="upper-case">Upper Case</button>
+    <button id="lower-case">Lower Case</button>
+    <button id="proper-case">Proper Case</button>
+    <button id="sentence-case">Sentence Case</button>
+    <button id="save-text-file">Save Text file</button>
+</div>
+<script>
+    document.getElementById("upper-case").addEventListener("click", function() {
+        document.querySelector("textarea").value
+            = document.querySelector("textarea").value.toUpperCase();
+    });
+
+    document.getElementById("lower-case").addEventListener("click", function() {
+        document.querySelector("textarea").value
+            = document.querySelector("textarea").value.toLocaleLowerCase();
+    });
+
+    document.getElementById("proper-case").addEventListener("click", function() {
+        document.querySelector("textarea").value
+            = document.querySelector("textarea").value.split(" ").map(function(element){
+            return element[0].toUpperCase()
+                + element.slice(1).toLowerCase();}).join(" ");
+    });
+
+    document.getElementById("sentence-case").addEventListener("click", function() {
+        document.querySelector("textarea").value
+            = document.querySelector("textarea").value.toLowerCase().replace(/\.\s*([a-z])|^[a-z]/gm, s => s.toUpperCase());
+    });
+
+    document.getElementById("save-text-file").addEventListener("click", function() {
+        let text = document.querySelector("textarea").value;
+        let download = document.createElement('a');
+        download.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        download.download = "text" + ".txt";
+        document.body.appendChild(download);
+        download.click();
+        document.body.removeChild(download);
+    });
+</script>
+
+</body>
+</html>
